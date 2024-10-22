@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+<body>
+    <div style="max-width: 500px; margin: 50px auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 10px; background-color: #f9f9f9; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);">
+        <h2 style="text-align: center; font-size: 32px; color: #333; margin-bottom: 30px; font-family: 'Arial', sans-serif;">Login</h2>
+
+        <form action="/login" method="POST">
+            <!-- Email Field -->
+            <div style="margin-bottom: 20px;">
+                <label for="email" style="font-size: 18px; color: #34495e; font-family: 'Arial', sans-serif;">Email</label><br>
+                <input type="email" id="email" name="email" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; margin-top: 5px;">
+            </div>
+
+            <!-- Password Field -->
+            <div style="margin-bottom: 20px;">
+                <label for="password" style="font-size: 18px; color: #34495e; font-family: 'Arial', sans-serif;">Password</label><br>
+                <input type="password" id="password" name="password" required style="width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 16px; margin-top: 5px;">
+            </div>
+
+            <!-- Submit Button -->
+            <div style="text-align: center;">
+                <button type="submit" style="background-color: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 5px; font-size: 18px; cursor: pointer; transition: background-color 0.3s;">
+                    Login
+                </button>
+            </div>
+        </form>
+
+        <!-- Redirect to Register -->
+        <p style="text-align: center; margin-top: 20px; color: #7f8c8d;">Don't have an account? <a href="/register" style="color: #3498db; text-decoration: none; font-weight: bold;">Register</a></p>
+    </div>
+</body>
+</html>

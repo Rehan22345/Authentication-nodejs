@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Blog</title>
+</head>
+<body>
+
+    <div style="max-width: 600px; margin: auto; padding: 20px; border: 1px solid #ccc; border-radius: 8px; background-color: #f9f9f9;">
+        <h2 style="text-align: center; color: #333;">Add Blog</h2>
+        <form action="/add-blog" method="POST" style="display: flex; flex-direction: column; gap: 15px;">
+            <label for="title" style="font-weight: bold;">Title:</label>
+            <input type="text" id="title" name="title" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+
+            <label for="subtitle" style="font-weight: bold;">Subtitle:</label>
+            <input type="text" id="subtitle" name="subtitle" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;">
+
+            <label for="description" style="font-weight: bold;">Description:</label>
+            <textarea id="description" name="description" rows="4" required style="padding: 10px; border: 1px solid #ccc; border-radius: 4px;"></textarea>
+
+            <button type="submit" style="padding: 10px; background-color: #28a745; color: white; border: none; border-radius: 4px; cursor: pointer; transition: background-color 0.3s;">
+                Add Blog
+            </button>
+        </form>
+    </div>
+
+</body>
+</html>
