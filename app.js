@@ -31,8 +31,31 @@ next(); // if everything works fine then  we are calling the next middleware fun
 
 }
 
-// creating a new middlewares where we have verify the token with secret key before going to particular routes 
 
+const verify_admin = async(req, res, next) => {
+  const user = req.users;  // Assuming req.users is an array
+
+  // Fetch admin's email from database
+  const admin_email = await User.findOne({ email: "admin@gmail.com" });
+
+  // If user is not logged in (empty or undefined)
+  if (!user || user === "") {
+    return res.status(401).send({ message: "Please login to access this resource" });
+  }
+
+  // If the user's email matches the admin's email, allow them to proceed
+  if (user.email === admin_email.email) {
+    next();
+  } else {
+    return res.status(403).send({ message: "You are not authorized to access this resource" });
+  }
+};
+
+
+// creating a new middlewares where we have verify the token with secret key before going to particular routes 
+app.get("/admin",verifymiddlewares,verify_admin,(req,res)=>{
+  res.send("Welcome to admin dashboard");
+})
 
 app.get("/", async (req, res) => {
   try {
