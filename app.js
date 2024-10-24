@@ -3,17 +3,16 @@ const app = express();
 const port = 3000;
 const path = require("path");
 const connect = require("./db/connect.js");
-const Blog = require("./model/blogs.js");
 const User = require("./model/user.js");
 const jwt = require("jsonwebtoken");
-const cookie_parser = require("cookie-parser")
+const cookie_parser = require("cookie-parser");
+const mail = require("./service/mail.js")
 app.use(express.json());
 app.use(cookie_parser())
 app.use(express.urlencoded({ extended: true }));
 connect();
 // setuping ejs 
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
+
 
 
 const verifymiddlewares = (req,res,next)=>{
@@ -32,58 +31,20 @@ next(); // if everything works fine then  we are calling the next middleware fun
 }
 
 
-const verify_admin = async(req, res, next) => {
-  const user = req.users;  // Assuming req.users is an array
 
-  // Fetch admin's email from database
-  const admin_email = await User.findOne({ email: "admin@gmail.com" });
-
-  // If user is not logged in (empty or undefined)
-  if (!user || user === "") {
-    return res.status(401).send({ message: "Please login to access this resource" });
-  }
-
-  // If the user's email matches the admin's email, allow them to proceed
-  if (user.email === admin_email.email) {
-    next();
-  } else {
-    return res.status(403).send({ message: "You are not authorized to access this resource" });
-  }
-};
-
-
-// creating a new middlewares where we have verify the token with secret key before going to particular routes 
-app.get("/admin",verifymiddlewares,verify_admin,(req,res)=>{
-  res.send("Welcome to admin dashboard");
-})
-
-app.get("/", async (req, res) => {
-  try {
-    const blogs = await Blog.find(); // Correct model name to `Blog`
-    res.render("index", { blogs });
-  } catch (error) {
-    console.error("Error fetching blogs:", error);
-    res.status(500).send("An error occurred while fetching blogs.");
-  }
-});
-
-app.get("/register", (req, res) => {
-  res.render("register");
-});
 
 app.post("/create", async (req, res) => {
   const { name, email, password } = req.body;
   try {
     await User.create({ name, email, password });
     res.json({ message: "User created successfully" });
+    mail();
   } catch (error) {
     res.status(500).json({ message: "Error creating user", error });
   }
 });
 
-app.get("/login", (req, res) => {
-  res.render("login");
-});
+
 
 app.post("/login", async (req, res) => {
   const { email, password } = req.body;
@@ -111,21 +72,22 @@ app.post("/login", async (req, res) => {
   console.log(users);
 });
 
-app.get("/create-blog",verifymiddlewares ,(req, res) => {
-  res.render("blog");
+
+app.get("/logout",(req,res)=>{
+  res.clearCookie("Tokens")
+res.redirect("/")
 });
 
-app.post("/add-blog", async (req, res) => {
-  const { title, subtitle, description } = req.body;
-  await Blog.create({
-    title: title,
-    subtitle: subtitle,
-    description: description,
-  });
-  res.json({
-    message: "Blog created successfully",
-  });
-});
+
+
+
+
+
+
+
+
+
+
 
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
